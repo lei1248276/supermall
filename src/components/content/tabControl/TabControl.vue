@@ -39,9 +39,6 @@
     display: flex;
     text-align: center;
     background-color: white;
-    position: sticky;
-    top: 44px;
-    z-index: 999;
   }
   .control-item{
     flex: 1;

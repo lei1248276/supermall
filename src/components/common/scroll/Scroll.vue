@@ -34,15 +34,19 @@
         pullUpLoad: this.pullUpLoad,
       });
       // 2.监听滚动的位置
-      this.scroll.on("scroll",(position) => {
-        // console.log(position);
-        this.$emit("scroll",position);
-      });
+      if (this.probeType === 2 || this.probeType === 3){
+        this.scroll.on("scroll",(position) => {
+          // console.log(position);
+          this.$emit("scroll",position);
+        });
+      }
       // 3.监听上拉事件
-      this.scroll.on("pullingUp",() => {
-        // console.log("上拉加载数据");
-        this.$emit("pulling-up");
-      })
+      if (this.pullUpLoad){
+        this.scroll.on("pullingUp",() => {
+          // console.log("上拉加载数据");
+          this.$emit("pulling-up");
+        })
+      }
     },
     methods: {
       scrollTo(x = 0,y = 0,time = 500) {
@@ -50,6 +54,10 @@
       },
       finishPullUp() {
         this.scroll.finishPullUp();
+      },
+      refresh() {
+        console.log("完成");
+        this.scroll.refresh();
       }
     }
   }

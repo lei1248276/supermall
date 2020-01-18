@@ -5,6 +5,9 @@
         <div>购物街</div>
       </template>
     </nav-bar>
+    <tab-control :title="['流行','新款','精选']"
+                 @tab-click="tabClick"
+                 ref="tabControl1" class="tab-control-two" v-show="isTabControlFixed"></tab-control>
     <scroll class="content" ref="scroll" :probe-type="3"
             @scroll="contentScroll"
             :pull-up-load="true"
@@ -12,7 +15,9 @@
       <home-swiper :banners="banners"></home-swiper>
       <recommend-view :recommends="recommends"></recommend-view>
       <feature-view></feature-view>
-      <tab-control :title="['流行','新款','精选']" @tab-click="tabClick"></tab-control>
+      <tab-control :title="['流行','新款','精选']"
+                   @tab-click="tabClick"
+                   ref="tabControl2" ></tab-control>
       <goods :goods="showGoods"></goods>
     </scroll>
     <back-top @click.native="backClick" v-show="isShow"></back-top>
@@ -34,6 +39,8 @@
 
   /* 导入网络请求函数*/
   import {getHomeMultidata,getHomeGoods} from "@/network/home";
+  /* 导入公共方法*/
+  import {debounce} from "../../common/utils";
 
   export default {
     name: "home",
@@ -58,6 +65,9 @@
           'sell': {page: 0,list: []},
         },
         currentType: 'pop',
+        tabOffsetTop: 0,
+        isTabControlFixed: false,
+        activePosition: 0,
       }
     },
     created() {
@@ -69,9 +79,38 @@
       this.getHomeGoods('new');
       this.getHomeGoods('sell');
     },
+    mounted() {
+      /* 1.监听GoodsItem中图片加载完成
+      （监听函数要在触发函数之前存在所以放在beforeCreate、created、beforeMount、mounted钩子函数中）*/
+      let refresh = debounce(this.$refs.scroll.refresh);
+      this.$bus.$on("itemImageLoad",() => {
+        // 重新计算better-scroll
+        refresh();
+      });
+    },
+    updated() {
+      /* 1.获取DOM更新后的tabControl的offsetTop*/
+      this.$nextTick(() => {
+        this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
+        // console.log(this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop);
+      })
+    },
+    /* 手动保存路由跳转时定位*/
+    activated() {
+      this.$refs.scroll.scrollTo(0,this.activePosition,1);
+      this.$refs.scroll.refresh();
+    },
+    /* 保存定位*/
+    deactivated() {
+      this.activePosition = this.$refs.scroll.scroll.y;
+    },
+    /* 在动态组件中来回切换会增加事件触发次数（每次使用事件总线，都要手动销毁）*/
+    beforeDestroy() {
+      this.$bus.$off("itemImageLoad");
+    },
     computed: {
       showGoods() {
-      return  this.goods[this.currentType].list;
+      return this.goods[this.currentType].list;
       }
     },
     methods: {
@@ -110,18 +149,23 @@
             this.currentType = 'sell';
             break;
         }
+        this.$refs.tabControl1.currentIndex = index;
+        this.$refs.tabControl2.currentIndex = index;
       },
       backClick() {
         this.$refs.scroll.scrollTo();
       },
       contentScroll(position) {
         // console.log(position);
+        // 1. 判断BackTop是否显示
         this.isShow = (-position.y) > 1000;
+        // 2. 判断TabControl是否吸顶
+        this.isTabControlFixed = (-position.y) >= this.tabOffsetTop;
       },
       loadMore() {
         console.log("上拉加载数据");
         this.getHomeGoods(this.currentType);
-      }
+      },
     }
   }
 </script>
@@ -132,6 +176,21 @@
     color: white;
   }
   .content{
-    height: calc(100vh - 44px - 49px);
+    overflow: hidden;
+    /*height: calc(100vh - 44px - 49px);*/
+    position: absolute;
+    top: 44px;
+    left: 0;
+    right: 0;
+    bottom: 49px;
+  }
+  /* position: fixed失效！
+    bscroll的滚动是用transform的translate来进行偏移，但是父元素设置了transform，所有子元素的position: fixed都不再相对于视口，而是相对于这个transform父元素！这不是什么bug，而是规范中规定。*/
+  .tab-control-two{
+    position: absolute;
+    top: 44px;
+    left: 0;
+    right: 0;
+    z-index: 1000;
   }
 </style>
