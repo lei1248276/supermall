@@ -18,7 +18,7 @@
       <tab-control :title="['流行','新款','精选']"
                    @tab-click="tabClick"
                    ref="tabControl2" ></tab-control>
-      <goods :goods="showGoods"></goods>
+      <goods-list :goods="showGoods"></goods-list>
     </scroll>
     <back-top @click.native="backClick" v-show="isShow"></back-top>
 
@@ -31,7 +31,7 @@
 
   import TabControl from "@/components/content/tabControl/TabControl";
   import BackTop from "@/components/content/backTop/BackTop";
-  import Goods from "../../components/content/goods/Goods";
+  import GoodsList from "../../components/content/goods/GoodsList";
 
   import HomeSwiper from "./childComps/HomeSwiper";
   import RecommendView from "./childComps/RecommendView";
@@ -51,7 +51,7 @@
       RecommendView,
       FeatureView,
       TabControl,
-      Goods,
+      GoodsList,
       BackTop
     },
     data() {
@@ -97,6 +97,7 @@
     },
     /* 手动保存路由跳转时定位*/
     activated() {
+      // 此处time参数不能设置为0，要不然会采取backTop的定位（原因不明）
       this.$refs.scroll.scrollTo(0,this.activePosition,1);
       this.$refs.scroll.refresh();
     },
@@ -149,6 +150,7 @@
             this.currentType = 'sell';
             break;
         }
+        // 让两个tabControl保持一致
         this.$refs.tabControl1.currentIndex = index;
         this.$refs.tabControl2.currentIndex = index;
       },
@@ -174,6 +176,7 @@
   .nav-home{
     background-color: var(--color-tint);
     color: white;
+    font-size: 22px;
   }
   .content{
     overflow: hidden;

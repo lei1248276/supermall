@@ -1,6 +1,6 @@
 <template>
   <div class="back-top">
-    <img src="@/assets/img/common/top.png" alt="">
+    <img src="~@/assets/img/common/top.png" alt="">
   </div>
 </template>
 
@@ -15,6 +15,7 @@
     position: fixed;
     right: 8px;
     bottom: 55px;
+    z-index: 1000;
   }
   .back-top img{
     width: 43px;

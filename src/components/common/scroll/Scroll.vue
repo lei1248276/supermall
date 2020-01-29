@@ -56,7 +56,7 @@
         this.scroll.finishPullUp();
       },
       refresh() {
-        console.log("完成");
+        // console.log("完成");
         this.scroll.refresh();
       }
     }
