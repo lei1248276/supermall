@@ -1,6 +1,7 @@
 import {
   ADD_COUNTER,
-  ADD_TO_CART
+  ADD_TO_CART,
+  CHECK_ALL_CLICK
 } from "./mutation-types";
 
 export default {
@@ -11,6 +12,20 @@ export default {
     payload.count++;
   },
   [ADD_TO_CART] (state,payload){
+    payload.checked = false;
     state.cartList.push(payload);
+  },
+  [CHECK_ALL_CLICK] (state,payload){
+    if (payload){
+      /* 全部选中点击情况下*/
+      state.cartList.map((value) => {
+        return value.checked = false;
+      })
+    }else {
+      /* 没有全部选中点击情况下*/
+      state.cartList.map((value) => {
+        return value.checked = true;
+      })
+    }
   }
 }
