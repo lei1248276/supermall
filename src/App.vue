@@ -14,7 +14,12 @@
     name: 'app',
     components: {
       MainTabBar,
-    }
+    },
+    /*mounted() {
+      console.log(this);
+      console.log(this.$options.myName);
+    },
+    myName: 'Jaye',*/
   }
 </script>
 

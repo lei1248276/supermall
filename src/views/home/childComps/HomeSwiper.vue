@@ -2,7 +2,7 @@
   <swiper>
     <swiper-item v-for="items in banners">
       <a :href="items.link">
-        <img :src="items.image" alt="">
+        <img :src="items.image" alt="" >
       </a>
     </swiper-item>
   </swiper>
@@ -24,7 +24,7 @@
     components: {
       Swiper,
       SwiperItem,
-    }
+    },
   }
 </script>
 

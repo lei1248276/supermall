@@ -1,6 +1,6 @@
 <template>
-  <div class="goods-item" @click="itemClick">
-    <img v-lazy="showImage" alt="" @load="imageLoad" >
+  <div class="recommend-list-item" >
+    <img v-lazy="showImage" alt="">
     <div class="goods-info">
       <p>{{goodsItem.title}}</p>
       <span class="goods-price">{{goodsItem.price}}</span>
@@ -11,7 +11,7 @@
 
 <script>
   export default {
-    name: "GoodsItem",
+    name: "DetailRecommendListItem",
     props: {
       goodsItem: {
         type: Object,
@@ -22,28 +22,19 @@
     },
     computed: {
       showImage() {
-        return this.goodsItem.show.img;
-      },
-    },
-    methods: {
-      /* 提醒图片加载完成，解决better-scroll异步加载不会自动更新的问题*/
-      imageLoad() {
-        this.$bus.$emit("itemImageLoad");
-      },
-      itemClick() {
-        this.$router.push("/detail/" + this.goodsItem.iid);
-      },
-    },
+        return this.goodsItem.image;
+      }
+    }
   }
 </script>
 
 <style scoped>
-  .goods-item{
+  .recommend-list-item{
     width: 48%;
     position: relative;
     padding-bottom: 40px;
   }
-  .goods-item img{
+  .recommend-list-item img{
     width: 100%;
     border-radius: 5px;
   }

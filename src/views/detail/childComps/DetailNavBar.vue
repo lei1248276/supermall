@@ -17,7 +17,7 @@
 </template>
 
 <script>
-  import NavBar from "@/components/common/navbar/NavBar";
+  import NavBar from "../../../components/common/navbar/NavBar";
 
   export default {
     name: "DetailNavBar",
@@ -36,7 +36,7 @@
         this.$emit('titleClick',index);
       },
       backClick() {
-        this.$router.back();
+        this.$router.go(-1);
       },
     },
   }

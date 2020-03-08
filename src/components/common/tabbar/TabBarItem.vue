@@ -32,7 +32,7 @@
     methods: {
       itemClick() {
         if (this.$route.path !== this.path){
-          console.log(this.$route);
+          // console.log(this.$route);
           this.$router.replace(this.path)
         }
       }
@@ -49,6 +49,7 @@
   }
   .tab-bar-item img{
     display: inline;
+    width: 24px;
     height: 24px;
     margin-top: 3px;
   }

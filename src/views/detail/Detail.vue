@@ -1,6 +1,6 @@
 <template>
   <div id="detail">
-    <detail-nav-bar @titleClick="titleClick" ref="nav"></detail-nav-bar>
+    <detail-nav-bar class="detail-nav" @titleClick="titleClick" ref="nav"></detail-nav-bar>
     <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">
       <detail-item :topImages="topImages"></detail-item>
       <detail-base-info :goods="goods"></detail-base-info>
@@ -8,7 +8,7 @@
       <detail-goods-info :detailInfo="detailInfo" @imageLoad="imageLoad"></detail-goods-info>
       <detail-param-info :paramInfo="paramInfo" ref="param"></detail-param-info>
       <detail-comment-info :commentInfo="commentInfo" ref="comment"></detail-comment-info>
-      <goods-list :goods="recommends" ref="recommends"></goods-list>
+      <detail-recommend-list :goods="recommends" ref="recommends"></detail-recommend-list>
     </scroll>
     <back-top @click.native="backClick" v-show="isShow"></back-top>
     <detail-bottom-bar @addToCart="addToCart"></detail-bottom-bar>
@@ -23,12 +23,14 @@
   import DetailGoodsInfo from "./childComps/DetailGoodsInfo";
   import DetailParamInfo from "./childComps/DetailParamInfo";
   import DetailCommentInfo from "./childComps/DetailCommentInfo";
-  import GoodsList from "../../components/content/goods/GoodsList";
+  import DetailRecommendList from "./childComps/DetailRecommendList";
   import DetailBottomBar from "./childComps/DetailBottomBar";
 
   import Scroll from "../../components/common/scroll/Scroll";
   import {getDetail,getRecommend,Goods,Shop,GoodsParam} from "../../network/detail";
   import {backTopMixin} from "../../common/mixin";
+
+  import {mapActions} from "vuex";
 
   export default {
     name: "Detail",
@@ -41,8 +43,8 @@
       DetailParamInfo,
       DetailNavBar,
       DetailCommentInfo,
-      GoodsList,
-      DetailBottomBar
+      DetailRecommendList,
+      DetailBottomBar,
     },
     data() {
       return {
@@ -61,6 +63,7 @@
     /* 使用混入导入back-top*/
     mixins: [backTopMixin],
     methods: {
+      ...mapActions(['addCart']),
       imageLoad() {
         this.$refs.scroll.refresh();
         this.themeTopYs = [];
@@ -70,7 +73,7 @@
         this.themeTopYs.push(this.$refs.recommends.$el.offsetTop);
         // 把最后一个值设置为无限大，防止最后一个值为 undefined
         this.themeTopYs.push(Infinity);
-        console.log(this.themeTopYs);
+        // console.log(this.themeTopYs);
       },
       titleClick(index) {
         // console.log(index);
@@ -101,7 +104,23 @@
         product.price = this.goods.realPirce;
         product.iid = this.iid;
         // 2.将商品添加到购物车
-        this.$store.dispatch('addCart',product);
+          // 方法一：使用mapActions
+        this.addCart(product).then(res => {
+          // console.log(res);
+          // 普通封装toast
+          /*this.message = res;
+          this.toastShow = true;
+          setTimeout(() => {
+            this.toastShow = false
+          },1000);*/
+          // 使用自定义插件封装toast
+          this.$toast.show(res);
+        });
+          // 方法二：使用Promise
+        /*this.$store.dispatch('addCart',product).then(res => {
+          console.log(res);
+        });*/
+
       },
     },
     created() {
@@ -110,13 +129,13 @@
       // 二.请求各个详情页的iid数据
       getDetail(this.iid).then((res) => {
         const data = res.result;
-        console.log(res);
+        // console.log(res);
         // 1.获取顶部轮播图的数据
         this.topImages = data.itemInfo.topImages;
         // console.log(this.topImages);
         // 2.获取商品信息
         this.goods = new Goods(data.itemInfo,data.columns,data.shopInfo.services);
-        console.log(this.goods);
+        // console.log(this.goods);
         // 3.创建店铺信息的对象
         this.shop = new Shop(data.shopInfo);
         // console.log(this.shop);
@@ -145,13 +164,17 @@
     height: 100vh;
     position: relative;
   }
+  .detail-nav{
+    position: relative;
+    z-index: 9;
+    background-color: #fff;
+  }
   .content{
     position: absolute;
     top: 44px;
     left: 0;
     right: 0;
     bottom: 58px;
-    z-index: 1000;
     background-color: white;
   }
 </style>

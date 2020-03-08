@@ -5,7 +5,7 @@
       <span>全选</span>
     </div>
     <span class="total-price">合计:￥{{totalPrice}}</span>
-    <span class="buy-product">结算({{buyProduct}})</span>
+    <span class="buy-product" @click="calcClick">结算({{buyProduct}})</span>
   </div>
 </template>
 
@@ -20,12 +20,20 @@
       CheckButton
     },
     methods: {
+      /* 点击全选按钮*/
       checkAll() {
         this.$store.commit(CHECK_ALL_CLICK,this.isSelectAll);
       },
+      /* 未选中商品点击结算情况下*/
+      calcClick() {
+        if (!this.isSelectAll){
+          this.$toast.show('请选中商品');
+        }
+      }
     },
     computed: {
       ...mapGetters(['cartList']),
+      /* 计算总价格*/
       totalPrice() {
         return this.cartList.filter(item => {
           return item.checked;
@@ -33,6 +41,7 @@
           return previousValue + currentValue.price * currentValue.count;
         },0).toFixed( 2);
       },
+      /* 结算购买商品数量*/
       buyProduct() {
         return this.cartList.filter(item => {
           return item.checked;
@@ -40,6 +49,7 @@
           return previousValue + currentValue.count;
         },0)
       },
+      /* 判断商品是否在全选情况下，再选中全选按钮*/
       isSelectAll() {
         if (this.cartList.length === 0){
           return false;
@@ -54,7 +64,7 @@
   .cart-bottom-bar{
     height: 40px;
     background-color: #eee;
-    position: absolute;
+    position: fixed;
     bottom: 49px;
     left: 0;
     right: 0;

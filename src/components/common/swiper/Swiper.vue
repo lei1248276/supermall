@@ -163,7 +163,7 @@
         } else if (this.distance < 0 && currentMove > this.totalWidth * this.moveRatio){
           this.currentIndex++;
         }
-        console.log(this.currentIndex);
+        // console.log(this.currentIndex);
         // 3.移动到正确的位置
         this.scrollContent(-this.currentIndex * this.totalWidth);
 

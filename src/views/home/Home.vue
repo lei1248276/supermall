@@ -7,8 +7,13 @@
     </nav-bar>
     <tab-control :title="['流行','新款','精选']"
                  @tab-click="tabClick"
-                 ref="tabControl1" class="tab-control-two" v-show="isTabControlFixed"></tab-control>
-    <scroll class="content" ref="scroll" :probe-type="3"
+                 ref="tabControl1"
+                 class="tab-control-two"
+                 v-show="isTabControlFixed">
+    </tab-control>
+    <scroll class="content"
+            ref="scroll"
+            :probe-type="3"
             @scroll="contentScroll"
             :pull-up-load="true"
             @pulling-up="loadMore">
@@ -17,11 +22,11 @@
       <feature-view></feature-view>
       <tab-control :title="['流行','新款','精选']"
                    @tab-click="tabClick"
-                   ref="tabControl2" ></tab-control>
+                   ref="tabControl2" >
+      </tab-control>
       <goods-list :goods="showGoods"></goods-list>
     </scroll>
     <back-top @click.native="backClick" v-show="isShow"></back-top>
-
   </div>
 </template>
 
@@ -70,6 +75,11 @@
         activePosition: 0,
       }
     },
+    computed: {
+      showGoods() {
+        return this.goods[this.currentType].list;
+      }
+    },
     created() {
       /* 请求Multidata网络数据*/
       this.getHomeMultidata();
@@ -98,7 +108,7 @@
     /* 手动保存路由跳转时定位*/
     activated() {
       // 此处time参数不能设置为0，要不然会采取backTop的定位（原因不明）
-      this.$refs.scroll.scrollTo(0,this.activePosition,1);
+      this.$refs.scroll.scrollTo(0,this.activePosition,50);
       this.$refs.scroll.refresh();
     },
     /* 保存定位*/
@@ -108,11 +118,6 @@
     /* 在动态组件中来回切换会增加事件触发次数（每次使用事件总线，都要手动销毁）*/
     beforeDestroy() {
       this.$bus.$off("itemImageLoad");
-    },
-    computed: {
-      showGoods() {
-      return this.goods[this.currentType].list;
-      }
     },
     methods: {
       /* 请求网络数据函数*/
@@ -138,8 +143,7 @@
 
       /* 监听事件方法*/
       tabClick(index) {
-        console.log(index);
-        switch (index) {
+          switch (index) {
           case 0:
             this.currentType = 'pop';
             break;
@@ -173,6 +177,10 @@
 </script>
 
 <style scoped>
+  #home {
+    height: 100vh;
+    position: relative;
+  }
   .nav-home{
     background-color: var(--color-tint);
     color: white;
@@ -190,10 +198,7 @@
   /* position: fixed失效！
     bscroll的滚动是用transform的translate来进行偏移，但是父元素设置了transform，所有子元素的position: fixed都不再相对于视口，而是相对于这个transform父元素！这不是什么bug，而是规范中规定。*/
   .tab-control-two{
-    position: absolute;
-    top: 44px;
-    left: 0;
-    right: 0;
+    position: relative;
     z-index: 1000;
   }
 </style>
