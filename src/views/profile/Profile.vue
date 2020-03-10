@@ -1,10 +1,6 @@
 <template>
   <div class="profile">
-    <nav-bar class="nav">
-      <template #center>
-        <div class="nav-title">超级商城</div>
-      </template>
-    </nav-bar>
+    <nav-bar class="nav"><template #center><div class="nav-title">超级商城</div></template></nav-bar>
     <scroll class="content">
       <user-info></user-info>
       <div class="account">

@@ -38,5 +38,6 @@
     width: 70px;
     height: 70px;
     margin-bottom: 10px;
+    display: inline-block;
   }
 </style>

@@ -1,10 +1,6 @@
 <template>
   <div id="home">
-    <nav-bar class="nav-home">
-      <template #center>
-        <div>购物街</div>
-      </template>
-    </nav-bar>
+    <nav-bar class="nav-home"><template #center><div>购物街</div></template></nav-bar>
     <tab-control :title="['流行','新款','精选']"
                  @tab-click="tabClick"
                  ref="tabControl1"
@@ -92,7 +88,7 @@
     mounted() {
       /* 1.监听GoodsItem中图片加载完成
       （监听函数要在触发函数之前存在所以放在beforeCreate、created、beforeMount、mounted钩子函数中）*/
-      let refresh = debounce(this.$refs.scroll.refresh);
+      let refresh = debounce(this.$refs.scroll.refresh,16,false);
       this.$bus.$on("itemImageLoad",() => {
         // 重新计算better-scroll
         refresh();
@@ -184,6 +180,7 @@
   .nav-home{
     background-color: var(--color-tint);
     color: white;
+    font-weight: bold;
     font-size: 22px;
   }
   .content{

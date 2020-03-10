@@ -1,6 +1,6 @@
 /*func: 回调函数，delay：延迟时间，immediate：是否立即执行*/
   /* 防抖动函数*/
-export function debounce(func,delay = 500,immediate = true) {
+export function debounce(func,delay = 16,immediate = true) {
   let timer = null;
   return function () {
     if (timer) {clearTimeout(timer)}
@@ -17,6 +17,16 @@ export function debounce(func,delay = 500,immediate = true) {
     }
   }
 }
+
+/*export function debounce(func, delay) {
+  let timer = null
+  return function (...args) {
+    if (timer) clearTimeout(timer)
+    timer = setTimeout(() => {
+      func.apply(this, args)
+    }, delay)
+  }
+}*/
 
 // 时间格式化函数（例："yyyy-MM-dd hh:mm:ss"）
 export function formatDate(date, fmt) {
