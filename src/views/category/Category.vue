@@ -3,7 +3,7 @@
     <nav-bar class="nav"><template #center><div class="title">分类</div></template></nav-bar>
     <div class="content">
       <category-menu :categories="categories" @select-index="selectIndex"></category-menu>
-      <scroll class="category-content" :probeType="3" @scroll="a">
+      <scroll class="category-content" :probeType="3" ref="scroll">
         <category-content :category-product="categoryProduct"></category-content>
       </scroll>
     </div>
@@ -37,6 +37,9 @@
     created() {
       this._getCategory();
     },
+    updated() {
+      this.$refs.scroll.refresh();
+    },
     methods: {
       // 1.请求category网络数据
       _getCategory() {
@@ -64,9 +67,6 @@
         this._getSubcategory(index);
         console.log(this.currentIndex);
       },
-      a(position) {
-        // console.log(position);
-      }
     }
   }
 </script>

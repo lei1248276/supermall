@@ -1,6 +1,6 @@
 <template>
   <div class="categoryContent">
-    <grid-view :cols="3" :v-margin="20" :item-space="10">
+    <grid-view :_cols="3" :v-padding="20" :_item-space="10">
       <div class="content" v-for="(item,index) in categoryProduct" :key="index">
         <img :src="item.image" alt="">
         <div class="title">{{item.title}}</div>

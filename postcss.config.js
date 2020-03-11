@@ -1,5 +1,5 @@
 // px转vw的插件
-/*module.exports = {
+module.exports = {
   plugins: {
     autoprefixer: {},
     'postcss-px-to-viewport': {
@@ -13,4 +13,4 @@
       exclude: [/node_modules/]
     }
   }
-};*/
+};

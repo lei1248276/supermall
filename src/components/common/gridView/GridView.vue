@@ -8,23 +8,31 @@
   export default {
     name: "GridView",
     props: {
-      cols: {
+      _cols: {
         type: Number,
         default: 3
       },
-      vMargin: {
+      _vMargin: {
         type: Number,
         default: 5
       },
-      hMargin: {
+      _hMargin: {
         type: Number,
         default: 5
       },
-      itemSpace: {
+      vPadding: {
         type: Number,
         default: 5
       },
-      lineSpace: {
+      hPadding: {
+        type: Number,
+        default: 5
+      },
+      _itemSpace: {
+        type: Number,
+        default: 5
+      },
+      _lineSpace: {
         type: Number,
         default: 5
       },
@@ -41,17 +49,17 @@
         let childEl = gridEl.children;
 
         // 2.设置grid的内边距
-        gridEl.style.padding = `${this.vMargin}px ${this.hMargin}px`;
+        gridEl.style.padding = `${this.vPadding}px ${this.hPadding}px`;
 
         // 3.设置子元素的宽度
-        let itemWidth = (gridEl.clientWidth - this.hMargin * 2 - (this.cols - 1) * this.itemSpace) /
-          this.cols;
-        console.log(itemWidth);
+        let itemWidth = (gridEl.clientWidth - this._hMargin * 2 - (this._cols - 1) * this._itemSpace) /
+          this._cols;
+        // console.log(itemWidth);
         for (let i = 0; i < childEl.length; i++) {
           let item = childEl[i];
           item.style.width = itemWidth + 'px';
-          item.style.marginRight = (i + 1) % this.cols !== 0 ? this.itemSpace + 'px' : '';
-          item.style.marginTop = i >= this.cols ? this.lineSpace + 'px' : '';
+          item.style.marginRight = (i + 1) % this._cols !== 0 ? this._itemSpace + 'px' : '';
+          item.style.marginTop = i >= this._cols ? this._lineSpace + 'px' : '';
         }
       }
     }
