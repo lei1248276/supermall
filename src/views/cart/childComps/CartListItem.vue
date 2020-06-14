@@ -85,8 +85,8 @@
     white-space: nowrap;
   }
   .item-info .cart-price{
-    font-size: 22px;
     margin-top: 40px;
+    font-size: 22px;
     color: orangered;
   }
   .item-info .cart-count{

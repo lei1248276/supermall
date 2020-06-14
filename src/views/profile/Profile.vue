@@ -12,13 +12,13 @@
         </div>
         <div class="account-item">
           <div class="number">
-            <span>0</span>元
+            <span>0</span>张
           </div>
           <div>我的优惠</div>
         </div>
         <div class="account-item">
           <div class="number">
-            <span>0</span>元
+            <span>0</span>分
           </div>
           <div>我的积分</div>
         </div>

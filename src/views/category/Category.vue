@@ -44,7 +44,7 @@
       // 1.请求category网络数据
       _getCategory() {
         getCategory().then(res => {
-          console.log(res);
+          // console.log(res);
           // 1.获取分类数据
           this.categories = res.data.category.list;
 
@@ -54,18 +54,19 @@
       },
       // 2.请求category-content的网络数据
       _getSubcategory(index) {
-        console.log(this.categories[index]);
+        // console.log(this.categories[index]);
         const maitKey = this.categories[index].maitKey;
-        console.log(maitKey);
+        // console.log(maitKey);
         getSubcategory(maitKey).then(res => {
-          console.log(res);
+          // console.log(res);
           this.categoryProduct = res.data.list;
         })
       },
       selectIndex(index) {
         this.currentIndex = index;
+        // 点击menu切换请求数据
         this._getSubcategory(index);
-        console.log(this.currentIndex);
+        // console.log(this.currentIndex);
       },
     }
   }

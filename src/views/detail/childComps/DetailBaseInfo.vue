@@ -15,7 +15,7 @@
     </div>
     <div class="info-services">
       <span v-for="(items,index) in goods.services.length - 1" :key="index">
-        <img :src="goods.services[index].icon" alt="">
+        <img :src="goods.services[index+1].icon" alt="">
         {{goods.services[index].name}}
       </span>
     </div>
@@ -75,7 +75,7 @@
     margin-top: 15px;
     font-size: 13px;
     line-height: 30px;
-    border-bottom: 1px solid rgba(100,100,100,.1);;
+    border-bottom: 1px solid rgba(100,100,100,.1);
   }
   .info-services{
     display: flex;
@@ -90,6 +90,6 @@
    height: 14px;
    position: relative;
    top: 2px;
-   margin-right: -4px;
+   margin-right: -2px;
  }
 </style>

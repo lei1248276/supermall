@@ -1,6 +1,6 @@
 <template>
   <div class="user-info">
-    <a href="#" class="clear-fix">
+    <a href="javascript:" class="clear-fix">
       <div class="avatar-default left">
         <slot name="user-icon">
           <img src="@/assets/img/profile/avatar.svg" alt="">

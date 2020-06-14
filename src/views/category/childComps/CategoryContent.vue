@@ -2,7 +2,7 @@
   <div class="categoryContent">
     <grid-view :_cols="3" :v-padding="20" :_item-space="10">
       <div class="content" v-for="(item,index) in categoryProduct" :key="index">
-        <img :src="item.image" alt="">
+        <img v-lazy="item.image" alt="">
         <div class="title">{{item.title}}</div>
       </div>
     </grid-view>

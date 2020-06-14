@@ -27,11 +27,11 @@
 </template>
 
 <script>
-  import NavBar from "@/components/common/navbar/NavBar";
-  import Scroll from "@/components/common/scroll/Scroll";
+  import NavBar from "../../components/common/navbar/NavBar";
+  import Scroll from "../../components/common/scroll/Scroll";
 
-  import TabControl from "@/components/content/tabControl/TabControl";
-  import BackTop from "@/components/content/backTop/BackTop";
+  import TabControl from "../../components/content/tabControl/TabControl";
+  import BackTop from "../../components/content/backTop/BackTop";
   import GoodsList from "../../components/content/goods/GoodsList";
 
   import HomeSwiper from "./childComps/HomeSwiper";
@@ -88,7 +88,7 @@
     mounted() {
       /* 1.监听GoodsItem中图片加载完成
       （监听函数要在触发函数之前存在所以放在beforeCreate、created、beforeMount、mounted钩子函数中）*/
-      let refresh = debounce(this.$refs.scroll.refresh,16,false);
+      let refresh = debounce(this.$refs.scroll.refresh);
       this.$bus.$on("itemImageLoad",() => {
         // 重新计算better-scroll
         refresh();
@@ -116,6 +116,10 @@
       this.$bus.$off("itemImageLoad");
     },
     methods: {
+      /*click() {
+        console.log('....');
+      },*/
+
       /* 请求网络数据函数*/
       getHomeMultidata() {
         getHomeMultidata().then(res => {

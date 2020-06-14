@@ -25,5 +25,17 @@ npm run test
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Home
+![home 图片](show/home1.png)
+![home 图片](show/home2.png)
+
+### detail
+![detail 图片](show/detail1.png)
+![detail 图片](show/detail2.png)
+![detail 图片](show/detail3.png)
+
+### category
+![category 图片](show/category.png)
+
+### profile
+![profile 图片](show/profile.png)

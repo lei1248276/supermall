@@ -90,6 +90,7 @@
     margin-top: 10px;
   }
   .info-img img{
+    display: inline-block;
     width: 70px;
     height: 70px;
     margin-right: 5px;
